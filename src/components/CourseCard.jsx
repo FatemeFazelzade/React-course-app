@@ -31,12 +31,18 @@ function CourseCardBody({ title, description, rate }) {
         <p className="title">{title}</p>
         <p className="desc">{description}</p>
       </div>
-      <span className="rate">{rate}</span>
+      <span className="rate"> ⭐️{rate}</span>
     </div>
   );
 }
 
 function CourseCardFooter({ tags, start, status }) {
+  const startedAt = new Date(start).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+
   return (
     <div className="course-item__footer">
       <div className="tags">
@@ -47,14 +53,12 @@ function CourseCardFooter({ tags, start, status }) {
         ))}
       </div>
       <div className="caption">
-        <div className="date">
-          {new Date(start).toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "short",
-            day: "numeric",
-          })}
-        </div>
-        <span className="badge badge--primary">{status}</span>
+        <div className="date">{startedAt}</div>
+        <span
+          className={`badge ${status === "Active" ? "badge--primary" : status === "Upcoming" ? "badge--danger" : "badge--secondary"}`}
+        >
+          {status}
+        </span>
       </div>
     </div>
   );
