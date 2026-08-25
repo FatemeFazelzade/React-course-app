@@ -11,6 +11,10 @@ h1 {
   margin-bottom: 1rem;
 }
 
+button {
+  all: unset;
+}
+
 .container {
   max-width: 50rem;
   margin: 0 auto;
@@ -27,6 +31,7 @@ h1 {
 .course-status .active {
   font-weight: 700;
   color: #334155;
+  text-decoration: underline;
 }
 
 .course-item {
