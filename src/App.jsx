@@ -4,6 +4,7 @@ import Dashboard from "./pages/Dashboard";
 import Layout from "./components/Layout";
 import Payments from "./pages/Payments";
 import Profile from "./pages/Profile";
+import { Navigate } from "react-router-dom";
 import MyCourses from "./pages/MyCourses";
 import "./App.css";
 
@@ -14,7 +15,8 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="dashboard" element={<Dashboard />}>
-            <Route index element={<MyCourses />} />
+            <Route index element={<Navigate to="mycourses" replace />} />
+            <Route path="mycourses" element={<MyCourses />} />{" "}
             <Route path="payments" element={<Payments />} />
             <Route path="profile" element={<Profile />} />
           </Route>
