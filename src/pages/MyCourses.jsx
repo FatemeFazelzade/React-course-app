@@ -1,18 +1,11 @@
 import { useState } from "react";
-
-const tabData = [
-  { id: 1, title: "All" },
-  { id: 2, title: "Active" },
-  { id: 3, title: "Completed" },
-  { id: 4, title: "Upcoming" },
-];
+import "./DashboardPages.css";
 
 const courses = [
   {
     id: 1,
     title: "English Lecture",
-    description: "language lessons with the most popular teachers",
-    imageUrl: "/images/img1.jpg",
+    description: "Language lessons with the most popular teachers",
     rate: "4.5",
     tags: ["languages"],
     start: "2021-08-01T20:46:30.615Z",
@@ -21,77 +14,41 @@ const courses = [
   {
     id: 2,
     title: "Design Strategy",
-    description:
-      "lesson on planning design concept and proper planning of work",
-    imageUrl: "/images/img2.jpg",
-    rate: "4",
-    tags: ["UI/UX design", "web design"],
-    start: "2023-07-01T20:46:30.615Z",
-    status: "Upcoming",
+    description: "Lesson on planning design concept and proper work structure",
+    rate: "4.8",
+    tags: ["design"],
+    start: "2021-09-01T20:46:30.615Z",
+    status: "Active",
   },
   {
     id: 3,
-    title: "Business Lecture",
-    description:
-      "lectures on how to build your business safely without fear of new projects",
-    imageUrl: "/images/img3.jpg",
-    rate: "3.9",
-    tags: ["Marketing", "Finance"],
-    start: "2023-07-01T20:46:30.615Z",
-    status: "Active",
+    title: "React Advanced Patterns",
+    description: "Deep dive into modern React architecture and hooks",
+    rate: "4.9",
+    tags: ["development"],
+    start: "2021-10-01T20:46:30.615Z",
+    status: "Upcoming",
   },
 ];
 
-function MyCourses() {
-  const [activeTabId, setActiveTabId] = useState(1);
-
-  const activeTabTitle =
-    tabData.find((tab) => tab.id === activeTabId)?.title || "All";
-
-  const filteredCourses =
-    activeTabTitle === "All"
-      ? courses
-      : courses.filter(
-          (course) =>
-            course.status.toLowerCase() === activeTabTitle.toLowerCase(),
-        );
-
-  return (
-    <>
-      <Header
-        activeTabId={activeTabId}
-        onSelectTab={setActiveTabId}
-        totalCourses={filteredCourses.length}
-      />
-
-      <CourseList courses={filteredCourses} />
-
-      <Footer />
-    </>
-  );
-}
-
-function Header({ activeTabId, onSelectTab, totalCourses }) {
-  return (
-    <div>
-      <h1>My Courses ({totalCourses})</h1>
-      <NavBar activeTabId={activeTabId} onSelectTab={onSelectTab} />
-    </div>
-  );
-}
-
 function NavBar({ activeTabId, onSelectTab }) {
+  const tabs = [
+    { id: 1, title: "All" },
+    { id: 2, title: "Active" },
+    { id: 3, title: "Completed" },
+    { id: 4, title: "Upcoming" },
+  ];
+
   return (
     <div className="course-status">
-      {tabData.map((tab) => (
+      {tabs.map((tab) => (
         <button
           key={tab.id}
           type="button"
-          onClick={() => onSelectTab(tab.id)}
           className={activeTabId === tab.id ? "active" : ""}
+          onClick={() => onSelectTab(tab.id)}
         >
-          <span>{tab.title}</span>
-          <span className="tab-indicator"></span>
+          {tab.title}
         </button>
       ))}
     </div>
@@ -100,99 +57,141 @@ function NavBar({ activeTabId, onSelectTab }) {
 
 function CourseList({ courses }) {
   if (courses.length === 0) {
-    return (
-      <p style={{ padding: "1rem" }}>هیچ دوره‌ای در این وضعیت یافت نشد.</p>
-    );
+    return <p className="muted-text">No courses found in this category.</p>;
   }
 
   return (
-    <div className="course-list">
+    <div className="course-list-grid" style={{ marginTop: "1rem" }}>
       {courses.map((course) => (
-        <CourseCard key={course.id} course={course} />
+        <div
+          key={course.id}
+          className="content-card"
+          style={{ padding: "1rem", marginBottom: "0.75rem" }}
+        >
+          <h3 style={{ margin: "0 0 0.5rem 0", fontSize: "1rem" }}>
+            {course.title}
+          </h3>
+          <p
+            style={{
+              margin: 0,
+              color: "var(--text-secondary)",
+              fontSize: "0.875rem",
+            }}
+          >
+            {course.description}
+          </p>
+          <div
+            style={{
+              marginTop: "0.5rem",
+              fontSize: "0.75rem",
+              color: "var(--primary)",
+            }}
+          >
+            Status: {course.status}
+          </div>
+        </div>
       ))}
     </div>
   );
 }
 
-function CourseCard({ course }) {
-  return (
-    <div className="course-item">
-      <div className="course-item__image">
-        <img src={course.imageUrl} alt={`image-${course.id}`} />
-      </div>
+function MyCourses() {
+  const [activeTabId, setActiveTabId] = useState(1);
 
-      <div className="course-item__detail">
-        <CourseCardBody
-          title={course.title}
-          description={course.description}
-          rate={course.rate}
-        />
+  const active = courses.filter((course) => course.status === "Active").length;
+  const completed = courses.filter(
+    (course) => course.status === "Completed",
+  ).length;
 
-        <CourseCardFooter
-          tags={course.tags}
-          start={course.start}
-          status={course.status}
-        />
-      </div>
-    </div>
-  );
-}
+  const completion = courses.length
+    ? Math.round((completed / courses.length) * 100)
+    : 0;
 
-function CourseCardBody({ title, description, rate }) {
-  return (
-    <div className="course-item__body">
-      <div>
-        <p className="title">{title}</p>
-        <p className="desc">{description}</p>
-      </div>
+  const summary = [
+    {
+      label: "Total Courses",
+      value: courses.length,
+      color: "blue",
+      icon: "M4 5.5A2.5 2.5 0 0 1 6.5 3H20v17H6.5A2.5 2.5 0 0 1 4 17.5z M4 17.5A2.5 2.5 0 0 1 6.5 15H20 M12 3v12",
+    },
+    {
+      label: "Active Courses",
+      value: active,
+      color: "purple",
+      icon: "M8 5v14l11-7z",
+    },
+    {
+      label: "Completed Courses",
+      value: completed,
+      color: "green",
+      icon: "m4 12 5 5L20 6",
+    },
+  ];
 
-      <span className="rate">⭐️{rate}</span>
-    </div>
-  );
-}
+  const filteredCourses = courses.filter((course) => {
+    if (activeTabId === 1) return true;
+    if (activeTabId === 2) return course.status === "Active";
+    if (activeTabId === 3) return course.status === "Completed";
+    if (activeTabId === 4) return course.status === "Upcoming";
 
-function CourseCardFooter({ tags, start, status }) {
-  const startedAt = new Date(start).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
+    return true;
   });
 
   return (
-    <div className="course-item__footer">
-      <div className="tags">
-        {tags.map((tag) => (
-          <span key={tag} className="badge badge--secondary">
-            {tag}
-          </span>
+    <section className="dashboard-page my-courses-page">
+      <div className="page-heading">
+        <div>
+          <span className="eyebrow">LEARNING</span>
+          <h1>My Courses</h1>
+          <p>Browse your courses and track your learning progress.</p>
+        </div>
+      </div>
+
+      <div className="payment-summary">
+        {summary.map(({ label, value, color, icon }) => (
+          <article className="summary-card" key={label}>
+            <div className={`summary-icon ${color}`}>
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path d={icon} />
+              </svg>
+            </div>
+
+            <div>
+              <span>{label}</span>
+              <strong>{value}</strong>
+            </div>
+          </article>
         ))}
       </div>
 
-      <div className="caption">
-        <div className="date">{startedAt}</div>
+      <div className="content-card">
+        <div className="card-header">
+          <div>
+            <h2>Course Library</h2>
+            <p>
+              Showing {filteredCourses.length} of {courses.length} courses
+            </p>
+          </div>
+        </div>
 
-        <span
-          className={`badge ${
-            status === "Active"
-              ? "badge--primary"
-              : status === "Upcoming"
-                ? "badge--danger"
-                : "badge--secondary"
-          }`}
-        >
-          {status}
-        </span>
+        <NavBar activeTabId={activeTabId} onSelectTab={setActiveTabId} />
+        <CourseList courses={filteredCourses} />
+
+        <p className="muted-text">
+          Learning progress: <strong>{completion}%</strong> completed
+        </p>
       </div>
-    </div>
-  );
-}
-
-function Footer() {
-  return (
-    <div className="footer">
-      You have successfully passed <strong>33%</strong> of your courses!
-      <div className="footer-credit">Made with coffee by Phi</div>
-    </div>
+    </section>
   );
 }
 

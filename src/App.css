@@ -166,7 +166,7 @@ a {
 
 .home-hero h1 {
   margin: 0;
-  color: var(--text-primary, #172033);
+  color: var(--text-main, #172033);
   font-size: clamp(2.5rem, 6vw, 5rem);
   line-height: 1.05;
   letter-spacing: -0.06em;
@@ -222,7 +222,7 @@ a {
 }
 
 .home-button--secondary {
-  color: var(--text-primary, #172033);
+  color: var(--text-main, #172033);
   border: 1px solid var(--border-soft, #e2e8f0);
   background-color: #fff;
 }
@@ -247,7 +247,7 @@ a {
 }
 
 .home-hero__card strong {
-  color: var(--text-primary, #172033);
+  color: var(--text-main, #172033);
   font-size: 0.95rem;
 }
 
@@ -260,7 +260,7 @@ a {
 .home-features {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
+  gap: 1.05rem;
   max-width: 1160px;
   margin: 0 auto;
 }
@@ -278,7 +278,7 @@ a {
 
 .home-feature h2 {
   margin: 1rem 0 0.5rem;
-  color: var(--text-primary, #172033);
+  color: var(--text-main, #172033);
   font-size: 1rem;
 }
 
@@ -322,7 +322,7 @@ a {
   }
 }
 
-/* Headings */
+/* Headings & Containers */
 h1 {
   margin: 0 0 2.5rem;
   color: var(--text-main);
@@ -332,7 +332,6 @@ h1 {
   line-height: 1.1;
 }
 
-/* General container */
 .container {
   width: min(100% - 2rem, 62rem);
   margin: 0 auto;
@@ -496,14 +495,14 @@ h1 {
 }
 
 .footer-credit {
-  margin: 1rem 0;
-  color: var(--text-secondary);
+  margin: 4rem 0;
+  color: var(--text-muted);
   font-size: 0.9rem;
   font-weight: 400;
   text-align: center;
 }
 
-/* Dashboard layout */
+/* Dashboard Layout */
 .dashboard-layout {
   display: flex;
   min-height: 100vh;
@@ -571,13 +570,19 @@ h1 {
   font-weight: 750;
 }
 
+.sidebar-icon {
+  width: 1.2rem;
+  height: 1.2rem;
+  flex: 0 0 auto;
+  stroke: currentColor;
+}
+
 .dashboard-content {
   flex: 1;
   min-width: 0;
   padding: clamp(1.25rem, 4vw, 3rem);
 }
 
-/* Responsive layout */
 @media (max-width: 768px) {
   .dashboard-layout {
     flex-direction: column;
@@ -616,50 +621,5 @@ h1 {
 
   .dashboard-content {
     padding: 1.25rem 1rem;
-  }
-}
-
-/* Small-screen course layout */
-@media (max-width: 600px) {
-  .course-status {
-    justify-content: flex-start;
-  }
-
-  .course-item {
-    flex-direction: column;
-  }
-
-  .course-item__image {
-    order: 0;
-    flex-basis: auto;
-  }
-
-  .course-item__image img {
-    aspect-ratio: 16 / 9;
-  }
-
-  .course-item__body {
-    flex-direction: column;
-    gap: 0.5rem;
-    margin-bottom: 1.25rem;
-  }
-
-  .course-item__footer .caption {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .app-nav {
-    justify-content: center;
-    gap: 0.5rem;
-    padding: 0.65rem;
-  }
-
-  .app-nav__link {
-    flex: 1;
-    justify-content: center;
-    padding: 0.6rem 0.5rem;
-    font-size: 0.85rem;
   }
 }

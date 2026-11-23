@@ -62,6 +62,10 @@ function Home() {
           <p>Follow your learning journey from one dashboard.</p>
         </article>
       </section>
+      <footer>
+        {" "}
+        <div className="footer-credit">Made with coffee by Phi</div>
+      </footer>
     </main>
   );
 }
